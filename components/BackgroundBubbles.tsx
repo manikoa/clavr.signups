@@ -67,22 +67,36 @@ export default function BackgroundBubbles({ className }: { className?: string })
         });
         setBubbleData(displayData);
 
-        // Create physics particles
+        // Create physics particles - distribute across screen in a grid pattern
+        const cols = Math.ceil(Math.sqrt(displayData.length * (w / (maxY - minY))));
+        const rows = Math.ceil(displayData.length / cols);
+        const cellWidth = w / cols;
+        const cellHeight = (maxY - minY) / rows;
+
         particlesRef.current = displayData.map((data, i) => {
             const radius = data.size / 2;
-            const x = radius + Math.random() * (w - radius * 2);
-            const y = minY + Math.random() * (maxY - minY - radius * 2);
-            const dir = Math.random() > 0.5 ? 1 : -1;
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+
+            // Position in grid cell with some randomness
+            const cellX = col * cellWidth;
+            const cellY = minY + row * cellHeight;
+            const x = cellX + cellWidth * 0.2 + Math.random() * cellWidth * 0.6;
+            const y = cellY + cellHeight * 0.2 + Math.random() * cellHeight * 0.6;
+
+            // Random direction - ensure good mix of left and right movement
+            const angle = Math.random() * Math.PI * 2;
 
             // Mobile bubbles move slower than desktop
             const speedMultiplier = isMobile ? 0.4 : 1.0;
+            const speed = (0.5 + Math.random() * 0.5) * speedMultiplier;
 
             return {
                 id: i,
-                x,
-                y,
-                vx: (0.5 + Math.random() * 0.5) * dir * speedMultiplier,  // Mobile: 0.2-0.4, Desktop: 0.5-1.0
-                vy: (Math.random() - 0.5) * 0.3 * speedMultiplier,        // Slower vertical too
+                x: Math.max(radius, Math.min(w - radius, x)),
+                y: Math.max(minY + radius, Math.min(maxY - radius, y)),
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed * 0.5,  // Less vertical movement
                 radius,
                 word: data.word,
                 bgColor: data.bgColor,
