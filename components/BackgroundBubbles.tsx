@@ -36,31 +36,31 @@ export default function BackgroundBubbles({ className }: { className?: string })
     const particlesRef = useRef<Particle[]>([]);
     const bubbleRefs = useRef<(HTMLDivElement | null)[]>([]);
     const animationRef = useRef<number | null>(null);
-    const screenRef = useRef({ w: 1200, h: 800, isMobile: false, minY: 100, maxY: 250, centerExclusion: { minX: 0, maxX: 0, minY: 0, maxY: 0 } });
+    const screenRef = useRef({ w: 1200, h: 800, isMobile: false, minY: 100, maxY: 250, textExclusionZones: [] as { minX: number; maxX: number; minY: number; maxY: number }[] });
 
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
-        // Use ALL images with duplicates - 20 bubbles on mobile, 28 on desktop
+        // Fewer bubbles on mobile for smoother movement - 12 on mobile, 28 on desktop
         const allImages = [...baseImages, ...baseImages];
-        const images = isMobile ? allImages.slice(0, 20) : allImages;
+        const images = isMobile ? allImages.slice(0, 12) : allImages;
 
         const w = window.innerWidth;
         const h = window.innerHeight;
-        // Bubbles can move in the HERO SECTION BACKGROUND (top 55% of screen)
-        // but never go to the bottom (countdown, footer area)
-        const minY = isMobile ? 100 : 120;     // Below navbar
-        const maxY = h * 0.55;                   // Top 55% of screen only
+        // Bubbles can move in the entire hero section on mobile
+        // More vertical room on mobile for free movement
+        const minY = isMobile ? 80 : 120;      // Below navbar
+        const maxY = isMobile ? h * 0.85 : h * 0.55;  // Mobile: most of screen, Desktop: top 55%
 
-        // Center exclusion zone for mobile - protect the two text lines
-        // This creates a rectangular "safe zone" where bubbles cannot go
-        const centerExclusion = isMobile ? {
-            minX: w * 0.05,   // 5% padding from edges
-            maxX: w * 0.95,
-            minY: h * 0.22,   // From above "Where Conversations fuel..."
-            maxY: h * 0.52    // To below "The brain your productivity stack was missing."
-        } : { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+        // Two narrow exclusion zones for mobile - ONLY the two text sentences
+        // Zone 1: "Where Conversations fuel [dynamic text]" 
+        // Zone 2: "The brain your productivity stack was missing."
+        // Bubbles CAN go behind: Clavr logo, Join Private Beta, signup form, countdown
+        const textExclusionZones = isMobile ? [
+            { minX: w * 0.08, maxX: w * 0.92, minY: h * 0.52, maxY: h * 0.62 },  // "Where Conversations fuel..."
+            { minX: w * 0.08, maxX: w * 0.92, minY: h * 0.64, maxY: h * 0.72 }   // "The brain your productivity..."
+        ] : [];
 
-        screenRef.current = { w, h, isMobile, minY, maxY, centerExclusion };
+        screenRef.current = { w, h, isMobile, minY, maxY, textExclusionZones };
 
         // Create bubble display data for React
         // Desktop bubbles: 30-54px, Mobile bubbles: 25-43px (smaller now)
@@ -155,33 +155,26 @@ export default function BackgroundBubbles({ className }: { className?: string })
                     p.vy = -Math.abs(p.vy);
                 }
 
-                // Center exclusion zone for mobile - push bubbles away from text
-                const { centerExclusion, isMobile: mobile } = screenRef.current;
-                if (mobile && centerExclusion.maxX > 0) {
-                    const inXZone = p.x > centerExclusion.minX && p.x < centerExclusion.maxX;
-                    const inYZone = p.y > centerExclusion.minY && p.y < centerExclusion.maxY;
+                // Text exclusion zones for mobile - only push bubbles away from the two sentences
+                const { textExclusionZones, isMobile: mobile } = screenRef.current;
+                if (mobile && textExclusionZones.length > 0) {
+                    for (const zone of textExclusionZones) {
+                        const inXZone = p.x > zone.minX && p.x < zone.maxX;
+                        const inYZone = p.y > zone.minY && p.y < zone.maxY;
 
-                    if (inXZone && inYZone) {
-                        // Push bubble to nearest edge
-                        const distToLeft = p.x - centerExclusion.minX;
-                        const distToRight = centerExclusion.maxX - p.x;
-                        const distToTop = p.y - centerExclusion.minY;
-                        const distToBottom = centerExclusion.maxY - p.y;
+                        if (inXZone && inYZone) {
+                            // Push bubble to nearest vertical edge (top or bottom of the text band)
+                            const distToTop = p.y - zone.minY;
+                            const distToBottom = zone.maxY - p.y;
 
-                        const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
-
-                        if (minDist === distToLeft) {
-                            p.x = centerExclusion.minX - p.radius;
-                            p.vx = -Math.abs(p.vx);
-                        } else if (minDist === distToRight) {
-                            p.x = centerExclusion.maxX + p.radius;
-                            p.vx = Math.abs(p.vx);
-                        } else if (minDist === distToTop) {
-                            p.y = centerExclusion.minY - p.radius;
-                            p.vy = -Math.abs(p.vy);
-                        } else {
-                            p.y = centerExclusion.maxY + p.radius;
-                            p.vy = Math.abs(p.vy);
+                            if (distToTop < distToBottom) {
+                                p.y = zone.minY - p.radius;
+                                p.vy = -Math.abs(p.vy) * 0.8;
+                            } else {
+                                p.y = zone.maxY + p.radius;
+                                p.vy = Math.abs(p.vy) * 0.8;
+                            }
+                            break; // Only handle one zone at a time
                         }
                     }
                 }
