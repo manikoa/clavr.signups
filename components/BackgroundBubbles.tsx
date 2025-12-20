@@ -36,7 +36,7 @@ export default function BackgroundBubbles({ className }: { className?: string })
     const particlesRef = useRef<Particle[]>([]);
     const bubbleRefs = useRef<(HTMLDivElement | null)[]>([]);
     const animationRef = useRef<number | null>(null);
-    const screenRef = useRef({ w: 1200, h: 800, isMobile: false, minY: 100, maxY: 250 });
+    const screenRef = useRef({ w: 1200, h: 800, isMobile: false, minY: 100, maxY: 250, centerExclusion: { minX: 0, maxX: 0, minY: 0, maxY: 0 } });
 
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
@@ -51,7 +51,15 @@ export default function BackgroundBubbles({ className }: { className?: string })
         const minY = isMobile ? 100 : 120;     // Below navbar
         const maxY = h * 0.55;                   // Top 55% of screen only
 
-        screenRef.current = { w, h, isMobile, minY, maxY };
+        // Center exclusion zone for mobile - protect the text area
+        const centerExclusion = isMobile ? {
+            minX: w * 0.1,   // Left 10% to right 90%
+            maxX: w * 0.9,
+            minY: h * 0.28,  // Vertical center zone where text is
+            maxY: h * 0.45
+        } : { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+
+        screenRef.current = { w, h, isMobile, minY, maxY, centerExclusion };
 
         // Create bubble display data for React
         // Desktop bubbles: 30-54px, Mobile bubbles: 25-43px (smaller now)
@@ -144,6 +152,37 @@ export default function BackgroundBubbles({ className }: { className?: string })
                 } else if (p.y + p.radius > maxY) {
                     p.y = maxY - p.radius;
                     p.vy = -Math.abs(p.vy);
+                }
+
+                // Center exclusion zone for mobile - push bubbles away from text
+                const { centerExclusion, isMobile: mobile } = screenRef.current;
+                if (mobile && centerExclusion.maxX > 0) {
+                    const inXZone = p.x > centerExclusion.minX && p.x < centerExclusion.maxX;
+                    const inYZone = p.y > centerExclusion.minY && p.y < centerExclusion.maxY;
+
+                    if (inXZone && inYZone) {
+                        // Push bubble to nearest edge
+                        const distToLeft = p.x - centerExclusion.minX;
+                        const distToRight = centerExclusion.maxX - p.x;
+                        const distToTop = p.y - centerExclusion.minY;
+                        const distToBottom = centerExclusion.maxY - p.y;
+
+                        const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+
+                        if (minDist === distToLeft) {
+                            p.x = centerExclusion.minX - p.radius;
+                            p.vx = -Math.abs(p.vx);
+                        } else if (minDist === distToRight) {
+                            p.x = centerExclusion.maxX + p.radius;
+                            p.vx = Math.abs(p.vx);
+                        } else if (minDist === distToTop) {
+                            p.y = centerExclusion.minY - p.radius;
+                            p.vy = -Math.abs(p.vy);
+                        } else {
+                            p.y = centerExclusion.maxY + p.radius;
+                            p.vy = Math.abs(p.vy);
+                        }
+                    }
                 }
 
                 // Particle-particle collisions (BOUNCE, don't cross!)
