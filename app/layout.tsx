@@ -10,7 +10,7 @@ const inter = Inter({
 export const metadata: Metadata = {
     metadataBase: new URL("https://clavr.me"),
     title: {
-        default: "Clavr - AI-Powered Productivity Assistant | Join the Private Beta",
+        default: "Clavr - Your OS for Productivity | Join the Private Beta",
         template: "%s | Clavr"
     },
     description: "Clavr is the AI brain your productivity stack was missing. Autonomous, private, and personalized. Connect your tools, let Clavr handle the rest. Join the private beta today.",
@@ -45,20 +45,20 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: "https://clavr.me",
         siteName: "Clavr",
-        title: "Clavr - AI-Powered Productivity Assistant",
+        title: "Clavr - Your OS for Productivity",
         description: "The AI brain your productivity stack was missing. Autonomous, private, and personalized. Join the private beta.",
         images: [
             {
                 url: "/og-image.png",
                 width: 1200,
                 height: 630,
-                alt: "Clavr - AI-Powered Productivity Assistant",
+                alt: "Clavr - Your OS for Productivity",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Clavr - AI-Powered Productivity Assistant",
+        title: "Clavr - Your OS for Productivity",
         description: "The AI brain your productivity stack was missing. Join the private beta.",
         images: ["/og-image.png"],
         creator: "@clavrAI",
