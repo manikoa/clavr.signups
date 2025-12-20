@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="w-full py-4 md:py-6 flex justify-center bg-transparent z-50 relative">
             <a
-                href="https://www.linkedin.com/company/109910207/"
+                href="https://www.linkedin.com/company/clavr-ai/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-black hover:text-blue-600 transition-all duration-300 hover:scale-110"
