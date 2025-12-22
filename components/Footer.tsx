@@ -1,8 +1,9 @@
 import { Linkedin } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="w-full py-4 md:py-6 flex justify-center bg-transparent z-50 relative">
+        <footer className="w-full py-4 md:py-6 flex flex-col items-center gap-4 bg-transparent z-50 relative">
             <a
                 href="https://www.linkedin.com/company/clavr-ai/"
                 target="_blank"
@@ -11,6 +12,12 @@ export default function Footer() {
             >
                 <Linkedin className="w-12 h-12 md:w-20 md:h-20" strokeWidth={0.8} />
             </a>
+            <Link
+                href="/privacy"
+                className="text-gray-600 hover:text-black text-sm transition-colors duration-300"
+            >
+                Privacy
+            </Link>
         </footer>
     );
 }
