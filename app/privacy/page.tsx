@@ -5,16 +5,21 @@ import { ArrowLeft, Shield, Mail, Lock, Users, Database, Eye, Trash2, Cookie, Ba
 
 export default function PrivacyPolicy() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-16 px-4 md:px-8">
-            <div className="max-w-2xl mx-auto">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 text-sm mb-10 transition-colors group"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    Back
-                </Link>
+        <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 pt-20 pb-16 px-4 md:px-8">
+            {/* Sticky Back Button */}
+            <div className="fixed top-0 left-0 right-0 z-50 py-4 px-4 md:px-8 bg-gradient-to-b from-gray-50 via-gray-50/95 to-gray-50/0">
+                <div className="max-w-2xl mx-auto">
+                    <Link
+                        href="/"
+                        className="clay-back-btn inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm px-4 py-2 transition-colors group"
+                    >
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                        Back
+                    </Link>
+                </div>
+            </div>
 
+            <div className="max-w-2xl mx-auto">
                 {/* Header Card */}
                 <div className="clay-card p-8 mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
@@ -178,6 +183,23 @@ export default function PrivacyPolicy() {
                         3px 3px 8px rgba(0, 0, 0, 0.08),
                         -3px -3px 8px rgba(255, 255, 255, 0.9),
                         inset 1px 1px 2px rgba(255, 255, 255, 0.7);
+                }
+                
+                .clay-back-btn {
+                    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+                    border-radius: 12px;
+                    box-shadow: 
+                        4px 4px 10px rgba(0, 0, 0, 0.06),
+                        -4px -4px 10px rgba(255, 255, 255, 0.9),
+                        inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+                    transition: all 0.2s ease;
+                }
+                
+                .clay-back-btn:hover {
+                    box-shadow: 
+                        5px 5px 12px rgba(0, 0, 0, 0.08),
+                        -5px -5px 12px rgba(255, 255, 255, 1),
+                        inset 1px 1px 2px rgba(255, 255, 255, 0.9);
                 }
             `}</style>
         </main>
