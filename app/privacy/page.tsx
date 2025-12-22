@@ -182,7 +182,7 @@ export default function PrivacyPolicy() {
                         If you have questions about this privacy policy or how we handle your data, please contact us:
                     </p>
                     <ul className="text-gray-700 space-y-2 ml-4">
-                        <li><strong>Email:</strong> <a href="mailto:founders@clavr.io" className="text-blue-600 hover:underline">founders@clavr.io</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:founders@clavr.me" className="text-blue-600 hover:underline">founders@clavr.me</a></li>
                         <li><strong>Address:</strong> Redmond, WA, USA</li>
                     </ul>
                 </section>
