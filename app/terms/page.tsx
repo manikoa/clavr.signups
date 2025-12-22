@@ -7,8 +7,8 @@ export default function TermsOfService() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
             {/* Sticky Back Button - Transparent and borderless per user request */}
-            <div className="fixed top-0 left-0 right-0 z-50 py-5 px-8">
-                <div className="max-w-2xl mx-auto">
+            <div className="fixed top-0 left-0 right-0 z-50 py-5 px-8 md:py-8 md:px-20 flex justify-center">
+                <div className="w-full max-w-3xl">
                     <Link
                         href="/"
                         className="clay-back-btn inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm px-4 py-2 transition-colors group"
@@ -19,16 +19,16 @@ export default function TermsOfService() {
                 </div>
             </div>
 
-            <div style={{ paddingTop: '48px', paddingBottom: '32px', paddingLeft: '16px', paddingRight: '16px' }}>
-                <div className="w-full max-w-2xl mx-auto">
+            <div className="pt-12 md:pt-32 pb-8 md:pb-16 px-10 md:px-8 flex flex-col items-center">
+                <div className="w-full max-w-2xl">
                     {/* Header Card */}
-                    <div className="clay-card p-4 mb-4 text-center" style={{ backgroundColor: '#ffffff' }}>
-                        <h1 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: '#000000', margin: 0 }}>Terms of Service</h1>
-                        <p className="text-gray-400 text-xs">Last updated: November 1, 2025</p>
+                    <div className="clay-card p-4 md:p-10 mb-4 md:mb-10 text-center" style={{ backgroundColor: '#ffffff' }}>
+                        <h1 className="text-2xl md:text-4xl font-bold mb-1 md:mb-2" style={{ color: '#000000', margin: 0 }}>Terms of Service</h1>
+                        <p className="text-gray-400 text-xs md:text-sm">Last updated: November 1, 2025</p>
                     </div>
 
                     {/* Main Content */}
-                    <div className="space-y-6 md:space-y-10">
+                    <div className="space-y-8 md:space-y-10">
                         <Section icon={<FileText className="w-5 h-5" />} title="1. Service Agreement">
                             <p className="mb-3">
                                 This Terms of Service agreement (&quot;Agreement&quot;) is a legal contract between you and Clavr, Inc. (&quot;Clavr&quot;) governing your subscription to and use of our paid services.
@@ -40,7 +40,7 @@ export default function TermsOfService() {
 
                         <Section icon={<Handshake className="w-5 h-5" />} title="2. Subscription Plans">
                             <p className="mb-3">Clavr offers various subscription tiers:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li><strong>Free Tier:</strong> Limited access to core features with usage restrictions</li>
                                 <li><strong>Pro Plan:</strong> Full access to all features for individual users</li>
                                 <li><strong>Team Plan:</strong> Collaborative features for teams and organizations</li>
@@ -53,7 +53,7 @@ export default function TermsOfService() {
 
                         <Section icon={<CreditCard className="w-5 h-5" />} title="3. Billing and Payment">
                             <p className="mb-3">By subscribing to a paid plan, you agree to:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>Pay all fees associated with your selected plan</li>
                                 <li>Provide accurate and current billing information</li>
                                 <li>Authorize recurring charges on a monthly or annual basis</li>
@@ -75,7 +75,7 @@ export default function TermsOfService() {
 
                         <Section icon={<XCircle className="w-5 h-5" />} title="5. Cancellation and Refunds">
                             <p className="mb-3">You may cancel your subscription at any time:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>Access continues until the end of your current billing period</li>
                                 <li>No refunds for partial billing periods</li>
                                 <li>No refunds for unused time on annual plans</li>
@@ -150,14 +150,14 @@ export default function TermsOfService() {
 
 function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
     return (
-        <div className="clay-section" style={{ padding: '12px', marginBottom: '8px' }}>
-            <div className="flex items-start gap-3" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <div className="clay-icon" style={{ padding: '8px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="clay-section p-4 md:p-8 mb-4 md:mb-6">
+            <div className="flex items-start gap-3 md:gap-6">
+                <div className="clay-icon p-2 md:p-3 flex-shrink-0 flex items-center justify-center">
                     {icon}
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <h2 className="text-base font-semibold text-black mb-1" style={{ fontSize: '16px', fontWeight: 600, color: '#000000', marginBottom: '4px' }}>{title}</h2>
-                    <div className="text-gray-600 text-sm leading-tight" style={{ color: '#4b5563', fontSize: '13px', lineHeight: 1.4 }}>
+                <div className="flex-1 min-w-0">
+                    <h2 className="text-base md:text-xl font-semibold text-black mb-1 md:mb-2" style={{ color: '#000000' }}>{title}</h2>
+                    <div className="text-gray-600 text-sm md:text-base leading-tight md:leading-relaxed" style={{ color: '#4b5563' }}>
                         {children}
                     </div>
                 </div>

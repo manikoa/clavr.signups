@@ -7,8 +7,8 @@ export default function TermsOfUse() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
             {/* Sticky Back Button - Transparent and borderless per user request */}
-            <div className="fixed top-0 left-0 right-0 z-50 py-5 px-8">
-                <div className="max-w-2xl mx-auto">
+            <div className="fixed top-0 left-0 right-0 z-50 py-5 px-8 md:py-8 md:px-20 flex justify-center">
+                <div className="w-full max-w-3xl">
                     <Link
                         href="/"
                         className="clay-back-btn inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm px-4 py-2 transition-colors group"
@@ -19,16 +19,16 @@ export default function TermsOfUse() {
                 </div>
             </div>
 
-            <div style={{ paddingTop: '48px', paddingBottom: '32px', paddingLeft: '16px', paddingRight: '16px' }}>
-                <div className="w-full max-w-2xl mx-auto">
+            <div className="pt-12 md:pt-32 pb-8 md:pb-16 px-10 md:px-8 flex flex-col items-center">
+                <div className="w-full max-w-2xl">
                     {/* Header Card */}
-                    <div className="clay-card p-4 mb-4 text-center" style={{ backgroundColor: '#ffffff' }}>
-                        <h1 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: '#000000', margin: 0 }}>Terms of Use</h1>
-                        <p className="text-gray-400 text-xs">Last updated: November 1, 2025</p>
+                    <div className="clay-card p-4 md:p-10 mb-4 md:mb-10 text-center" style={{ backgroundColor: '#ffffff' }}>
+                        <h1 className="text-2xl md:text-4xl font-bold mb-1 md:mb-2" style={{ color: '#000000', margin: 0 }}>Terms of Use</h1>
+                        <p className="text-gray-400 text-xs md:text-sm">Last updated: November 1, 2025</p>
                     </div>
 
                     {/* Main Content */}
-                    <div className="space-y-6 md:space-y-10">
+                    <div className="space-y-8 md:space-y-10">
                         <Section icon={<FileText className="w-5 h-5" />} title="1. Overview">
                             <p className="mb-3">
                                 Welcome to Clavr, Inc. (&quot;Clavr,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). These Terms of Use govern your access to and use of Clavr&apos;s products, software, services, websites, and applications (collectively, the &quot;Services&quot;).
@@ -36,7 +36,7 @@ export default function TermsOfUse() {
                             <p className="mb-3">
                                 Clavr provides an autonomous intelligent productivity platform that allows you to transform conversations into actions across your entire workflow. Our ecosystem includes:
                             </p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li><strong>The Clavr platform</strong> - your intelligent productivity hub, accessible through web or app</li>
                                 <li><strong>Clavr software</strong> - tools for orchestrating workflows, managing tasks, scheduling meetings, and automating actions</li>
                                 <li><strong>Third-party integrations</strong> - including Gmail, Google Calendar, Google Tasks, Slack, and Notion</li>
@@ -54,7 +54,7 @@ export default function TermsOfUse() {
 
                         <Section icon={<Shield className="w-5 h-5" />} title="3. Your Account">
                             <p className="mb-3">To use many of our Services, you must create an account. You agree to:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>Provide accurate and complete information</li>
                                 <li>Maintain the confidentiality of your credentials</li>
                                 <li>Notify us immediately of any unauthorized access</li>
@@ -67,7 +67,7 @@ export default function TermsOfUse() {
 
                         <Section icon={<Scale className="w-5 h-5" />} title="4. Use of the Services">
                             <p className="mb-3">You may use the Services only for lawful, personal, and non-commercial purposes, unless expressly authorized. You agree not to:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>Access or use the Services in any unlawful or harmful way</li>
                                 <li>Attempt to copy, reverse-engineer, or modify our systems or software</li>
                                 <li>Circumvent security or encryption technologies</li>
@@ -79,7 +79,7 @@ export default function TermsOfUse() {
 
                         <Section icon={<Cpu className="w-5 h-5" />} title="5. Autonomous Actions and AI-Generated Content">
                             <p className="mb-3">Clavr uses artificial intelligence to orchestrate workflows and transform conversations into actions. You understand and agree that:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>AI-generated actions and content may contain errors or inaccuracies</li>
                                 <li>You are responsible for reviewing and approving all actions before execution</li>
                                 <li>Clavr is not liable for actions taken through your account, including emails sent, tasks created, or meetings scheduled</li>
@@ -91,7 +91,7 @@ export default function TermsOfUse() {
 
                         <Section icon={<Ban className="w-5 h-5" />} title="6. Prohibited Activities">
                             <p className="mb-3">When using Clavr, you must NOT:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>Send spam, phishing emails, or unsolicited commercial communications</li>
                                 <li>Use the platform to harass, abuse, or harm others</li>
                                 <li>Violate any applicable laws or regulations</li>
@@ -147,7 +147,7 @@ export default function TermsOfUse() {
 
                         <Section icon={<AlertTriangle className="w-5 h-5" />} title="13. Disclaimers">
                             <p className="mb-3">Clavr is provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, either express or implied. We do not guarantee that:</p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 <li>The platform will be uninterrupted, secure, or error-free</li>
                                 <li>AI-generated actions and content will be accurate or suitable for your needs</li>
                                 <li>Defects will be corrected</li>
@@ -211,14 +211,14 @@ export default function TermsOfUse() {
 
 function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
     return (
-        <div className="clay-section" style={{ padding: '12px', marginBottom: '8px' }}>
-            <div className="flex items-start gap-3" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <div className="clay-icon" style={{ padding: '8px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="clay-section p-4 md:p-8 mb-4 md:mb-6">
+            <div className="flex items-start gap-3 md:gap-6">
+                <div className="clay-icon p-2 md:p-3 flex-shrink-0 flex items-center justify-center">
                     {icon}
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <h2 className="text-base font-semibold text-black mb-1" style={{ fontSize: '16px', fontWeight: 600, color: '#000000', marginBottom: '4px' }}>{title}</h2>
-                    <div className="text-gray-600 text-sm leading-tight" style={{ color: '#4b5563', fontSize: '13px', lineHeight: 1.4 }}>
+                <div className="flex-1 min-w-0">
+                    <h2 className="text-base md:text-xl font-semibold text-black mb-1 md:mb-2" style={{ color: '#000000' }}>{title}</h2>
+                    <div className="text-gray-600 text-sm md:text-base leading-tight md:leading-relaxed" style={{ color: '#4b5563' }}>
                         {children}
                     </div>
                 </div>
