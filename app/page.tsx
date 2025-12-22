@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
     return (
-        <div className="relative h-screen overflow-hidden bg-white flex flex-col items-center justify-between py-2 md:py-6">
+        <div className="fixed inset-0 w-full h-[100dvh] overflow-hidden bg-white flex flex-col items-center justify-between py-2 md:py-6 overscroll-none">
             {/* Bubbles at root level */}
             <BackgroundBubbles className="fixed inset-0 z-0 overflow-hidden" />
 
