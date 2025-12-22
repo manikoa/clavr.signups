@@ -12,12 +12,20 @@ export default function Footer() {
             >
                 <Linkedin className="w-12 h-12 md:w-20 md:h-20" strokeWidth={0.8} />
             </a>
-            <Link
-                href="/privacy"
-                className="text-gray-600 hover:text-black text-sm transition-colors duration-300"
-            >
-                Privacy
-            </Link>
+            <div className="flex gap-4">
+                <Link
+                    href="/privacy"
+                    className="text-gray-600 hover:text-black text-sm transition-colors duration-300"
+                >
+                    Privacy
+                </Link>
+                <Link
+                    href="/terms"
+                    className="text-gray-600 hover:text-black text-sm transition-colors duration-300"
+                >
+                    Terms
+                </Link>
+            </div>
         </footer>
     );
 }
