@@ -18,7 +18,7 @@ export default function Navigation() {
                             src="/logos/Clavr - Full Lockup - Black.png"
                             alt="Clavr Logo"
                             width={140}
-                            height={36}
+                            height={49}
                             className="h-6 md:h-12 w-auto mb-3 md:mb-6"
                             priority
                         />
