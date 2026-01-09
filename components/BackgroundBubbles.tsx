@@ -83,10 +83,18 @@ export default function BackgroundBubbles({ className }: { className?: string })
         screenRef.current = { w, h, isMobile, minY, maxY, textExclusionZones };
 
         // Create bubble display data for React
-        // Desktop bubbles: 30-54px, Mobile bubbles: 25-43px (smaller now)
+        // Desktop bubbles: 30-54px, Mobile bubbles: 25-43px
+        // Clavr Bubble images get a size boost (1.5x larger)
         const displayData = images.map((src, i) => {
+            const isClavrBubble = src.includes('Clavr Bubble');
             const baseSize = isMobile ? 25 : 30;
-            const size = baseSize + (i % 4) * (isMobile ? 6 : 6);
+            let size = baseSize + (i % 4) * (isMobile ? 6 : 6);
+
+            // Make Clavr Bubble images larger
+            if (isClavrBubble) {
+                size = Math.round(size * 1.5);
+            }
+
             return {
                 src,
                 word: HOVER_WORDS[i % HOVER_WORDS.length],
