@@ -5,11 +5,31 @@ import Image from "next/image";
 import { useEffect, useState, useRef, memo, useCallback } from "react";
 
 const baseImages = [
-    "/pictures/ -2.jpg", "/pictures/ -3.jpg", "/pictures/ -4.jpg", "/pictures/ -5.jpg",
-    "/pictures/ -6.jpg", "/pictures/ -7.jpg", "/pictures/ .jpg", "/pictures/African Savannah.jpg",
-    "/pictures/Architecture africaine.jpg", "/pictures/Elephant.jpg",
-    "/pictures/Majestic Victoria Falls – The Smoke That Thunders.jpg", "/pictures/dark academia.jpg",
-    "/pictures/winter semester study session.jpg", "/pictures/Lake Tahoe's Least Crowded and Most Photogenic Campsite.jpg",
+    "/pictures/ -2.jpg",
+    "/pictures/ -3.jpg",
+    "/pictures/ -5.jpg",
+    "/pictures/ -6.jpg",
+    "/pictures/ -7.jpg",
+    "/pictures/jouneyart.jpg",
+    "/pictures/road.jpg",
+    "/pictures/20 Helpful Africa Tips BEFORE Traveling To Africa.jpg",
+    "/pictures/African Savannah.jpg",
+    "/pictures/Buy my products and support me.jpg",
+    "/pictures/Clavr Bubble - 1.png",
+    "/pictures/Clavr Bubble - 2.png",
+    "/pictures/Clavr Bubble - 3.png",
+    "/pictures/Clavr Bubble - 4.png",
+    "/pictures/Clavr Bubble - 5.png",
+    "/pictures/Clavr Bubble - 6.png",
+    "/pictures/Clavr Bubble - 7.png",
+    "/pictures/Clavr Bubble - 8.png",
+    "/pictures/Clavr Bubble - 9.png",
+    "/pictures/Clavr Bubble - 10.png",
+    "/pictures/Clavr Bubble - 10 copy.png",
+    "/pictures/Elephant.jpg",
+    "/pictures/How to Feel Happy Again_ 8 Realistic Ways.jpg",
+    "/pictures/Lake Tahoe's Least Crowded and Most Photogenic Campsite.jpg",
+    "/pictures/Majestic Victoria Falls – The Smoke That Thunders.jpg",
 ];
 
 const HOVER_WORDS = [
@@ -28,6 +48,11 @@ interface Particle {
     bgColor: string;
     src: string;
     element?: HTMLDivElement | null;
+    // Creative motion properties
+    phase: number;           // Oscillation phase offset
+    waveAmplitude: number;   // How much to wobble
+    waveFrequency: number;   // Wobble speed
+    baseSpeed: number;       // Original speed for reference
 }
 
 export default function BackgroundBubbles({ className }: { className?: string }) {
@@ -40,23 +65,17 @@ export default function BackgroundBubbles({ className }: { className?: string })
 
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
-        // Use ALL 14 base images on mobile, 28 (duplicated) on desktop
-        const allImages = [...baseImages, ...baseImages];
-        const images = isMobile ? baseImages : allImages;  // Mobile: 14 images, Desktop: 28
+        const images = baseImages;
 
         const w = window.innerWidth;
         const h = window.innerHeight;
-        // MOBILE: Bubbles can go in top portion including behind the big "Clavr" text
-        // But they must avoid the two specific sentences below Clavr
+        // Bubbles float behind the hero section up to the email form
+        // They should NOT appear below the email input area
         const minY = isMobile ? 80 : 120;       // Below navbar
-        // MOBILE: maxY at 36% allows bubbles behind:
-        // - Navbar area (top)
-        // - "Join the Private Beta" badge (~25%)
-        // - "Clavr" logo (~28-35%)
-        // But STOPS bubbles BEFORE:
-        // - "Where Conversations fuel..." (~38%+)
-        // - "The brain your productivity..." (~46%+)
-        const maxY = isMobile ? h * 0.36 : h * 0.55;
+        // maxY stops bubbles AT the email input (not beyond):
+        // - Navbar, badge, logo, taglines = covered
+        // - Email input bottom edge and below = bubble-free zone
+        const maxY = isMobile ? h * 0.48 : h * 0.50;
 
         // No exclusion zones needed - maxY prevents bubbles from reaching the protected text
         const textExclusionZones: { minX: number; maxX: number; minY: number; maxY: number }[] = [];
@@ -110,7 +129,12 @@ export default function BackgroundBubbles({ className }: { className?: string })
                 radius,
                 word: data.word,
                 bgColor: data.bgColor,
-                src: data.src
+                src: data.src,
+                // Creative motion properties - randomized per bubble
+                phase: Math.random() * Math.PI * 2,
+                waveAmplitude: 0.3 + Math.random() * 0.5,
+                waveFrequency: 0.01 + Math.random() * 0.02,
+                baseSpeed: speed
             };
         });
 
@@ -126,17 +150,36 @@ export default function BackgroundBubbles({ className }: { className?: string })
             p.element = bubbleRefs.current[i];
         });
 
+        let frameCount = 0;
+
         const animate = () => {
             const { w, minY, maxY } = screenRef.current;
             const particles = particlesRef.current;
+            frameCount++;
 
             // Update each particle
             for (let i = 0; i < particles.length; i++) {
                 const p = particles[i];
 
-                // Move
-                p.x += p.vx;
-                p.y += p.vy;
+                // Creative wave motion - adds organic wobble to movement
+                const waveOffset = Math.sin(frameCount * p.waveFrequency + p.phase) * p.waveAmplitude;
+
+                // Move with wave influence
+                p.x += p.vx + waveOffset * 0.3;
+                p.y += p.vy + Math.cos(frameCount * p.waveFrequency * 0.7 + p.phase) * p.waveAmplitude * 0.2;
+
+                // Random gentle nudges every ~2 seconds (120 frames) to keep things interesting
+                if (frameCount % 120 === Math.floor(p.id * 4.7) % 120) {
+                    p.vx += (Math.random() - 0.5) * 0.3;
+                    p.vy += (Math.random() - 0.5) * 0.15;
+                    // Keep velocity within bounds
+                    const maxSpeed = p.baseSpeed * 1.5;
+                    const currentSpeed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+                    if (currentSpeed > maxSpeed) {
+                        p.vx = (p.vx / currentSpeed) * maxSpeed;
+                        p.vy = (p.vy / currentSpeed) * maxSpeed;
+                    }
+                }
 
                 // Wall collisions (left/right)
                 if (p.x - p.radius < 0) {
@@ -156,7 +199,7 @@ export default function BackgroundBubbles({ className }: { className?: string })
                     p.vy = -Math.abs(p.vy);
                 }
 
-                // Text exclusion zones for mobile - only push bubbles away from the two sentences
+                // Text exclusion zones for mobile
                 const { textExclusionZones, isMobile: mobile } = screenRef.current;
                 if (mobile && textExclusionZones.length > 0) {
                     for (const zone of textExclusionZones) {
@@ -164,7 +207,6 @@ export default function BackgroundBubbles({ className }: { className?: string })
                         const inYZone = p.y > zone.minY && p.y < zone.maxY;
 
                         if (inXZone && inYZone) {
-                            // Push bubble to nearest vertical edge (top or bottom of the text band)
                             const distToTop = p.y - zone.minY;
                             const distToBottom = zone.maxY - p.y;
 
@@ -175,41 +217,49 @@ export default function BackgroundBubbles({ className }: { className?: string })
                                 p.y = zone.maxY + p.radius;
                                 p.vy = Math.abs(p.vy) * 0.8;
                             }
-                            break; // Only handle one zone at a time
+                            break;
                         }
                     }
                 }
 
-                // Particle-particle collisions (BOUNCE, don't cross!)
+                // Enhanced anti-clustering: stronger repulsion when bubbles get close
                 for (let j = i + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dx = p2.x - p.x;
                     const dy = p2.y - p.y;
                     const distSq = dx * dx + dy * dy;
                     const minDist = p.radius + p2.radius;
+                    const repulsionDist = minDist * 2.5; // Start repelling before collision
 
-                    if (distSq < minDist * minDist) {
+                    if (distSq < repulsionDist * repulsionDist) {
                         const dist = Math.sqrt(distSq) || 1;
                         const nx = dx / dist;
                         const ny = dy / dist;
 
-                        // Separate overlapping particles
-                        const overlap = (minDist - dist) / 2;
-                        p.x -= nx * overlap;
-                        p.y -= ny * overlap;
-                        p2.x += nx * overlap;
-                        p2.y += ny * overlap;
+                        if (distSq < minDist * minDist) {
+                            // Collision - separate and bounce
+                            const overlap = (minDist - dist) / 2;
+                            p.x -= nx * overlap;
+                            p.y -= ny * overlap;
+                            p2.x += nx * overlap;
+                            p2.y += ny * overlap;
 
-                        // Exchange velocity components along collision normal
-                        const v1n = p.vx * nx + p.vy * ny;
-                        const v2n = p2.vx * nx + p2.vy * ny;
+                            const v1n = p.vx * nx + p.vy * ny;
+                            const v2n = p2.vx * nx + p2.vy * ny;
 
-                        // Only bounce if moving towards each other
-                        if (v1n - v2n > 0) {
-                            p.vx -= (v1n - v2n) * nx;
-                            p.vy -= (v1n - v2n) * ny;
-                            p2.vx += (v1n - v2n) * nx;
-                            p2.vy += (v1n - v2n) * ny;
+                            if (v1n - v2n > 0) {
+                                p.vx -= (v1n - v2n) * nx;
+                                p.vy -= (v1n - v2n) * ny;
+                                p2.vx += (v1n - v2n) * nx;
+                                p2.vy += (v1n - v2n) * ny;
+                            }
+                        } else {
+                            // Gentle repulsion to prevent clustering
+                            const repelStrength = (1 - dist / repulsionDist) * 0.02;
+                            p.vx -= nx * repelStrength;
+                            p.vy -= ny * repelStrength;
+                            p2.vx += nx * repelStrength;
+                            p2.vy += ny * repelStrength;
                         }
                     }
                 }
@@ -279,7 +329,7 @@ const BubbleImage = memo(({ src, index, word, bgColor, size }: { src: string; in
             >
                 <Image
                     src={src}
-                    alt=""
+                    alt="Clavr Bubble"
                     fill
                     className="object-cover scale-125 select-none"
                     draggable={false}

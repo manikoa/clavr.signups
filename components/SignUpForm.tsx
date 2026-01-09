@@ -181,7 +181,12 @@ export default function SignUpForm() {
                         }`}
                 >
                     <span className="inline-flex items-center gap-1.5">
-                        🧑 <span className="font-semibold text-black">{signupCount}</span> and counting
+                        <span className="inline-flex items-end">
+                            <span className="inline-block -rotate-12 translate-y-0.5">🧑🏻</span>
+                            <span className="inline-block -ml-1">🧑🏼</span>
+                            <span className="inline-block rotate-12 translate-y-0.5 -ml-1">🧑🏾</span>
+                        </span>
+                        <span className="font-semibold text-black">{signupCount}</span> and counting
                     </span>
                 </div>
             </div>

@@ -4,15 +4,10 @@ import Link from "next/link";
 const XIcon = ({ className }: { className?: string }) => (
     <svg
         viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fill="currentColor"
         className={className}
     >
-        <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
 );
 
@@ -26,7 +21,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="text-black hover:text-[#0077b5] transition-all duration-300 hover:scale-110"
                 >
-                    <Linkedin className="w-6.5 h-6.5 md:w-8.5 md:h-8.5" strokeWidth={0.8} />
+                    <Linkedin className="w-6.5 h-6.5 md:w-8.5 md:h-8.5" strokeWidth={1.5} />
                 </a>
                 <a
                     href="https://x.com/clavrrr"
@@ -42,7 +37,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="text-black hover:text-[#FF0000] transition-all duration-300 hover:scale-110"
                 >
-                    <Youtube className="w-6.5 h-6.5 md:w-8.5 md:h-8.5" strokeWidth={0.8} />
+                    <Youtube className="w-6.5 h-6.5 md:w-8.5 md:h-8.5" strokeWidth={1.5} />
                 </a>
             </div>
             <div className="flex gap-4">

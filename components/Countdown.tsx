@@ -12,7 +12,7 @@ export default function Countdown() {
     });
 
     useEffect(() => {
-        const targetDate = new Date("2026-01-10T00:00:00");
+        const targetDate = new Date("2026-01-19T00:00:00");
 
         const updateCountdown = () => {
             const now = new Date();
@@ -61,9 +61,9 @@ export default function Countdown() {
                     </div>
                 ))}
             </div>
-            <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10 text-black/40 text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium">
-                <Calendar className="w-3 h-3" />
-                <span>Until Beta Launch</span>
+            <div className="flex items-center justify-center gap-2.5 mt-6 sm:mt-8 text-gray-500 text-sm sm:text-base tracking-[0.2em] uppercase font-medium">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1.5} />
+                <span>UNTIL BETA LAUNCH</span>
             </div>
         </div>
     );
