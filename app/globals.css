@@ -66,6 +66,15 @@ a {
   text-decoration: none;
 }
 
+/* Demo button override */
+.demo-btn {
+  color: white !important;
+}
+
+.demo-btn:hover {
+  color: black !important;
+}
+
 /* Spatial UI utility classes */
 .glass {
   background: var(--glass-bg);
